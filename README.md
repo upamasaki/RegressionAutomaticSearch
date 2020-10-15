@@ -85,12 +85,12 @@ X = boston_X.values
 main.pyを実行します．
 
 ```
-(venv) C:\Users\mtani\Documents\GIT\RegressionAutomaticSearch>python main.py  
+(venv) C:\RegressionAutomaticSearch>python main.py  
 ```
 
 ## 回帰結果
 
 resultフォルダに結果の画像と誤差，決定係数のcsvが出力されます．
 
-![代替テキスト](manual\fig_demo.PNG)
-![代替テキスト](manual\result_MSE_R2.PNG)
+![代替テキスト](https://github.com/upamasaki/RegressionAutomaticSearch/blob/main/manual/fig_demo.PNG)
+![代替テキスト](https://github.com/upamasaki/RegressionAutomaticSearch/blob/main/manual/result_MSE_R2.PNG)
