@@ -8,15 +8,31 @@ from sklearn.ensemble import AdaBoostRegressor
 from sklearn.ensemble import BaggingRegressor
 from sklearn.ensemble import VotingRegressor
 
+from sklearn.svm import SVR, LinearSVR
+from sklearn.cross_decomposition import PLSRegression
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet, SGDRegressor
+from sklearn.linear_model import TheilSenRegressor, RANSACRegressor, HuberRegressor
 
 class ModelFactory():
     def __init__(self):
         pass
 
-    def LinearRegression(self):
+    def _LinearRegression(self):
         return [linear_model.LinearRegression(), 'LinearRegression']
 
-    def DecisionTreeRegressor(self, max_depth_list):
+    def _Ridge(self):
+        return [Ridge(), 'Ridge']
+
+    def _Lasso(self):
+        return [Lasso(), 'Lasso']
+
+    def _ElasticNet(self):
+        return [ElasticNet(), 'ElasticNet']
+
+    def _HuberRegresso(self):
+        return [HuberRegressor(), 'HuberRegresso']
+
+    def _DecisionTreeRegressor(self, max_depth_list):
         models = []
         names  = []
         base_name = 'DecisionTreeRegressor'
@@ -25,7 +41,7 @@ class ModelFactory():
             names.append("{}_max_depth{}".format(base_name, max_depth))
         return [models, names]
 
-    def RandomForestRegressor(self, max_depth_list, n_estimators_list):
+    def _RandomForestRegressor(self, max_depth_list, n_estimators_list):
         models = []
         names  = []
         base_name = 'RandomForestRegressor'
@@ -35,7 +51,7 @@ class ModelFactory():
                 names.append("{}_max_depth{}_n{}".format(base_name, max_depth, n_estimators))
         return [models, names]
 
-    def AdaBoostRegressor(self, n_estimators_list):
+    def _AdaBoostRegressor(self, n_estimators_list):
         models = []
         names  = []
         base_name = 'AdaBoostRegressor'
@@ -44,11 +60,34 @@ class ModelFactory():
             names.append("{}_n{}".format(base_name, n_estimators))
         return [models, names]
 
+    def _PLSRegression(self, n_components_list):
+        models = []
+        names  = []
+        base_name = 'PLSRegression'
+        for n_components in n_components_list:
+            models.append(PLSRegression(n_components=n_components))
+            names.append("{}_n{}".format(base_name, n_components))
+        return [models, names]
+
+    def _BaggingRegressor(self, n_estimators_list, base_estimator=SVR()):
+        models = []
+        names  = []
+        base_name = 'BaggingRegressor'
+        for n_estimators in n_estimators_list:
+            models.append(BaggingRegressor(base_estimator=SVR(), n_estimators=n_estimators))
+            names.append("{}_n{}".format(base_name, n_estimators))
+        return [models, names]
+
     def model_import(self):
-        models_names = [ self.LinearRegression(), 
-                         self.DecisionTreeRegressor(list(range(2, 30, 2))),
-                         self.RandomForestRegressor(list(range(2, 30, 2)), list(range(20, 200, 20))),
-                         self.AdaBoostRegressor(list(range(20, 200, 20)))]
+        models_names = [ self._LinearRegression(), 
+                         self._HuberRegresso(),
+                         self._ElasticNet(),
+                         self._Lasso(),
+                         self._PLSRegression(n_components_list=list(range(3, 10, 1))),
+                         self._BaggingRegressor(n_estimators_list=list(range(5, 30, 2))),
+                         self._DecisionTreeRegressor(max_depth_list=list(range(2, 30, 2))),
+                         self._RandomForestRegressor(max_depth_list=list(range(2, 30, 2)), n_estimators_list=list(range(20, 200, 5))),
+                         self._AdaBoostRegressor(n_estimators_list=list(range(20, 200, 20)))]
         models = []
         names  = []
         for model_, name_ in models_names:
