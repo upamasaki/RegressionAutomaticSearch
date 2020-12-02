@@ -79,15 +79,16 @@ class ModelFactory():
         return [models, names]
 
     def model_import(self):
-        models_names = [ self._LinearRegression(), 
-                         self._HuberRegresso(),
-                         self._ElasticNet(),
-                         self._Lasso(),
-                         self._PLSRegression(n_components_list=list(range(3, 10, 1))),
-                         self._BaggingRegressor(n_estimators_list=list(range(5, 30, 2))),
-                         self._DecisionTreeRegressor(max_depth_list=list(range(2, 30, 2))),
+        models_names = [# self._LinearRegression(), 
+                        #  self._HuberRegresso(),
+                        #  self._ElasticNet(),
+                        #  self._Lasso(),
+                        #  self._PLSRegression(n_components_list=list(range(3, 10, 1))),
+                        #  self._BaggingRegressor(n_estimators_list=list(range(5, 30, 2))),
+                        #  self._DecisionTreeRegressor(max_depth_list=list(range(2, 30, 2))),
                          self._RandomForestRegressor(max_depth_list=list(range(2, 30, 2)), n_estimators_list=list(range(20, 200, 5))),
-                         self._AdaBoostRegressor(n_estimators_list=list(range(20, 200, 20)))]
+                        #  self._AdaBoostRegressor(n_estimators_list=list(range(20, 200, 20)))
+                        ]
         models = []
         names  = []
         for model_, name_ in models_names:
